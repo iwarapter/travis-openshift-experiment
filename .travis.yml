@@ -6,10 +6,17 @@ language:
 services:
   - docker
   
-before_install:
+env:  
+  global:
+    - DOCKER_VERSION=1.10.1-0~trusty
+
+before_install:  
+  # list docker-engine versions
+  - apt-cache madison docker-engine
+
+  # upgrade docker-engine to specific version
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
   # openshift
-  - sudo apt-get remove docker-engine -yq
-  - sudo apt-get install docker-engine=1.11.2-0~trusty -yq --no-install-suggests --no-install-recommends
   - sudo apt-get install wget -y
   - sudo sed -i 's:DOCKER_OPTS=":DOCKER_OPTS="--insecure-registry 172.30.0.0/16 :g' /etc/default/docker
   - sudo mv /bin/findmnt /bin/findmnt.backup
