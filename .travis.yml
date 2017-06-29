@@ -31,4 +31,4 @@ script:
   - docker version
   - oc version
   - oc cluster up
-
+  - java -version
